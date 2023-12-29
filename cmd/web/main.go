@@ -8,8 +8,8 @@ import (
 
 	"github.com/abbassmortazavi/bookings/pkg/handlers"
 
-	"github.com/abbassmortazavi/bookings/pkg/render"
 	"github.com/abbassmortazavi/bookings/pkg/config"
+	"github.com/abbassmortazavi/bookings/pkg/render"
 	"github.com/alexedwards/scs/v2"
 )
 
@@ -17,8 +17,8 @@ const port = ":8080"
 
 var app config.AppConfig
 var session *scs.SessionManager
-func main() {
 
+func main() {
 
 	//change is true when in production mode
 	app.InProduction = false
@@ -31,15 +31,14 @@ func main() {
 
 	app.Session = session
 
-
 	tc, err := render.CreateTemplateCache()
-	if err != nil{
+	if err != nil {
 		log.Fatal("cannot template cache")
 	}
 
 	app.TemplateCache = tc
 	app.UseCache = false
-	
+
 	repo := handlers.NewRepo(&app)
 	handlers.NewHandlers(repo)
 
@@ -47,18 +46,14 @@ func main() {
 
 	fmt.Println("Starting Application ... on port", port)
 
-
 	srv := &http.Server{
-		Addr: port,
+		Addr:    port,
 		Handler: routes(&app),
 	}
 
 	err = srv.ListenAndServe()
 	log.Fatal(err)
 
-
-
-
-
 }
 
+//part 6 => 002

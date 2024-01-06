@@ -10,7 +10,7 @@ import (
 
 	"github.com/abbassmortazavi/bookings/pkg/config"
 	"github.com/abbassmortazavi/bookings/pkg/render"
-	"github.com/alexedwards/scs/v2"
+	_ "github.com/alexedwards/scs/v2"
 )
 
 const port = ":8080"
@@ -56,4 +56,4 @@ func main() {
 
 }
 
-//part 6 => 002
+//part 6 => 005

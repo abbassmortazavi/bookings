@@ -8,6 +8,7 @@
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.3.4/dist/css/datepicker-bulma.min.css">
 
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/notie/dist/notie.min.css">
 
     <style type="text/css">
         .my-footer {
@@ -83,6 +84,13 @@
         </div>
     </div>
 
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-3"></div>
+        <div class="col-sm-3"></div>
+        <div class="col-sm-3"></div>
+    </div>
+    <button id="alert-button">Click me</button>
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -94,9 +102,12 @@
         integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
         crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.3.4/dist/js/datepicker-full.min.js"></script>
+<script src="https://unpkg.com/notie"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
 <script>
+    let attention = Prompt();
     (function () {
         'use strict';
         window.addEventListener('load', function () {
@@ -115,10 +126,93 @@
         }, false);
     })();
 
+    document.getElementById('alert-button').addEventListener("click", function () {
+        //notify('success', 'success');
+        attention.error({msg: "Hello World!", icon: "warning"});
+    })
+
     const elem = document.getElementById('reservation-date');
     const rangepicker = new DateRangePicker(elem, {
         format: "yyyy-mm-dd"
     });
+
+
+    function notify(msg, type) {
+        notie.alert({
+            type: type,
+            text: msg,
+            position: "top" // optional, default = 'top', enum: ['top', 'bottom']
+        })
+    }
+
+    function notifyModal(title, text, icon, confirmationButton) {
+        Swal.fire({
+            title: title,
+            text: text,
+            icon: icon,
+            confirmButtonText: confirmationButton
+        })
+    }
+
+    function Prompt() {
+        let toast = function (c) {
+            const {
+                msg = "",
+                icon = "success",
+                position = "top-end"
+            } = c;
+            const Toast = Swal.mixin({
+                toast: true,
+                title: msg,
+                position: position,
+                icon: icon,
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({});
+        }
+
+        let success = function (c) {
+            const {
+                msg = "",
+                title = "",
+                footer = ""
+            } = c;
+            Swal.fire({
+                icon: "success",
+                title: title,
+                text: msg,
+                footer: footer
+            });
+        }
+
+        let error = function (c) {
+            const {
+                msg = "",
+                title = "",
+                footer = ""
+            } = c;
+            Swal.fire({
+                icon: "error",
+                title: title,
+                text: msg,
+                footer: footer
+            });
+        }
+
+        return {
+            toast: toast,
+            success: success,
+            error: error,
+        }
+    }
+
+
 </script>
 
 </body>

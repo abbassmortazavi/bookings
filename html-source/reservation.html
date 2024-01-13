@@ -5,6 +5,9 @@
     <title>Title</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.3.4/dist/css/datepicker-bulma.min.css">
+
 
     <style type="text/css">
         .my-footer {
@@ -60,40 +63,26 @@
         <div class="col-md-3"></div>
         <div class="col-md-6">
             <h1 class="mt-5">Search for Availability</h1>
-            <form action="/reservation.html" method="post" novalidate class="needs-validation">
-                <div class="row">
+            <form action="reservation.html" method="post" class="needs-validation" novalidate>
+                <div class="form-row">
                     <div class="col">
-                        <div class="form-group">
-                            <label for="start_date">Starting Date</label>
-                            <input type="date" class="form-control" name="start_date" id="start_date"
-                                   aria-describedby="emailHelp" placeholder="Enter email">
-                            <small id="startDate" class="form-text text-muted">Enter your starting date</small>
+                        <div class="row" id="reservation-date">
+                            <div class="col">
+                                <input class="form-control" type="text" name="start" required>
+                            </div>
+                            <div class="col">
+                                <input type="text" class="form-control" name="end" required>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="col">
-                        <div class="form-group">
-                            <label for="endDate">Ending Date</label>
-                            <input type="date" class="form-control" name="end_date" id="end_date"
-                                   aria-describedby="emailHelp" placeholder="Enter email"/>
-                            <small id="endDate" class="form-text text-muted">Enter your starting date</small>
-                        </div>
-                    </div>
                 </div>
-
-
+                <hr>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>
     </div>
 
-    <div class="row my-footer">
-        <div class="col">
-            <p id="myParagraph">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut autem commodi dolor earum explicabo quidem ut voluptate? Alias amet, cumque deserunt fugiat maxime mollitia officiis perspiciatis quis repellat suscipit tempora.</p>
-        </div>
-        <div class="col"></div>
-        <div class="col"></div>
-    </div>
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -104,16 +93,18 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
         integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
         crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.3.4/dist/js/datepicker-full.min.js"></script>
+
 
 <script>
-    (function() {
+    (function () {
         'use strict';
-        window.addEventListener('load', function() {
+        window.addEventListener('load', function () {
             // Fetch all the forms we want to apply custom Bootstrap validation styles to
             let forms = document.getElementsByClassName('needs-validation');
             // Loop over them and prevent submission
-             Array.prototype.filter.call(forms, function(form) {
-                form.addEventListener('submit', function(event) {
+            Array.prototype.filter.call(forms, function (form) {
+                form.addEventListener('submit', function (event) {
                     if (form.checkValidity() === false) {
                         event.preventDefault();
                         event.stopPropagation();
@@ -123,6 +114,11 @@
             });
         }, false);
     })();
+
+    const elem = document.getElementById('reservation-date');
+    const rangepicker = new DateRangePicker(elem, {
+        format: "yyyy-mm-dd"
+    });
 </script>
 
 </body>

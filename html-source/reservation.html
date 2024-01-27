@@ -3,17 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.3.4/dist/css/datepicker-bulma.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.3.4/dist/css/datepicker-bulma.min.css">
 
     <link rel="stylesheet" type="text/css" href="https://unpkg.com/notie/dist/notie.min.css">
+    <link rel="stylesheet" href="html-source/css/style.css">
 
-    <style type="text/css">
-        .my-footer {
-            background-color: green;
-            margin-top: 1.5em;
+    <style>
+        .btn-outline-secondary{
+            color: red;
+            border-color: #6c757d;
         }
     </style>
 
@@ -90,7 +89,7 @@
         <div class="col-sm-3"></div>
         <div class="col-sm-3"></div>
     </div>
-    <button id="alert-button">Click me</button>
+    <button class="btn btn-outline-secondary" id="alert-button">Click me</button>
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -128,7 +127,21 @@
 
     document.getElementById('alert-button').addEventListener("click", function () {
         //notify('success', 'success');
-        attention.error({msg: "Hello World!", icon: "warning"});
+        let html = `<form id="check-availability-form" action="" method="post" novalidate class="needs-validation">
+                <div class="row">
+                    <div class="col">
+                        <div class="row" id="reservation-dates-modal">
+                            <div class="col">
+                                <input type="text" class="form-control" name="start" id="start" placeholder="Arrival" disabled required>
+                            </div>
+                             <div class="col">
+                                <input type="text" class="form-control" name="end" id="end" placeholder="Departure" disabled required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>`
+        attention.custom({msg: html});
     })
 
     const elem = document.getElementById('reservation-date');
@@ -205,10 +218,45 @@
             });
         }
 
+        async function custom(c) {
+            const {
+                msg= "",
+                title=""
+            }=c;
+            const { value: formValues } = await Swal.fire({
+                title: title,
+                html: msg,
+                backdrop: false,
+                focusConfirm: false,
+                showConfirmButton: true,
+                showCancelButton: true,
+                willOpen:()=>{
+                    const elem = document.getElementById('reservation-dates-modal')
+                    const rp = new DateRangePicker(elem, {
+                        format: "yyyy-mm-dd",
+                        showFocus: true
+                    })
+                },
+                preConfirm: () => {
+                    return [
+                        document.getElementById("start").value,
+                        document.getElementById("end").value
+                    ];
+                },
+                didOpen:()=>{
+                    document.getElementById('start').removeAttribute('disabled');
+                    document.getElementById('end').removeAttribute('disabled');
+                }
+            });
+            if (formValues) {
+                Swal.fire(JSON.stringify(formValues));
+            }
+        }
         return {
             toast: toast,
             success: success,
             error: error,
+            custom:custom
         }
     }
 

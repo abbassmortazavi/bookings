@@ -1,32 +1,220 @@
 {{define "base"}}
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
-    </script>
+    <title>Title</title>
+    <link href="static/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="static/css/datepicker-bulma.min.css">
+
+    <link rel="stylesheet" type="text/css" href="static/css/notie.min.css">
+    <link rel="stylesheet" href="static/css/style.css">
+
+    <style>
+        .btn-outline-secondary {
+            color: red;
+            border-color: #6c757d;
+        }
+    </style>
     {{block "css" .}}
 
     {{end}}
+
 </head>
-
 <body>
-   {{block "content" .}}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/about">About</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        Rooms
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/generals">General Qarters</a></li>
+                        <li><a class="dropdown-item" href="/majors">Major Sweeits</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                    </ul>
+                </li>
 
-   {{end}}
+                <li class="nav-item">
+                    <a class="nav-link" aria-disabled="true" href="/search-availability">Book Now</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-disabled="true" href="/contact">Contact Us</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+{{block "content" .}}
+
+{{end}}
 
 
-   {{block "js" .}}
 
-   {{end}}
+
+<script src="static/js/jquery.min.js"></script>
+
+<script src="static/js/popper.min.js"></script>
+<script src="static/js/bootstrap.min.js"></script>
+<script src="static/js/datepicker-full.min.js"></script>
+<script src="static/js/notie.min.js"></script>
+<script src="static/js/sweetalert2@11.js"></script>
+{{block "js" .}}
+
+{{end}}
+
+<script>
+    let attention = Prompt();
+    (function () {
+        'use strict';
+        window.addEventListener('load', function () {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            let forms = document.getElementsByClassName('needs-validation');
+            // Loop over them and prevent submission
+            Array.prototype.filter.call(forms, function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
+    })();
+
+    function notify(msg, type) {
+        notie.alert({
+            type: type,
+            text: msg,
+            position: "top" // optional, default = 'top', enum: ['top', 'bottom']
+        })
+    }
+
+    function notifyModal(title, text, icon, confirmationButton) {
+        Swal.fire({
+            title: title,
+            text: text,
+            icon: icon,
+            confirmButtonText: confirmationButton
+        })
+    }
+
+    function Prompt() {
+        let toast = function (c) {
+            const {
+                msg = "",
+                icon = "success",
+                position = "top-end"
+            } = c;
+            const Toast = Swal.mixin({
+                toast: true,
+                title: msg,
+                position: position,
+                icon: icon,
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({});
+        }
+
+        let success = function (c) {
+            const {
+                msg = "",
+                title = "",
+                footer = ""
+            } = c;
+            Swal.fire({
+                icon: "success",
+                title: title,
+                text: msg,
+                footer: footer
+            });
+        }
+
+        let error = function (c) {
+            const {
+                msg = "",
+                title = "",
+                footer = ""
+            } = c;
+            Swal.fire({
+                icon: "error",
+                title: title,
+                text: msg,
+                footer: footer
+            });
+        }
+
+        async function custom(c) {
+            const {
+                msg = "",
+                title = ""
+            } = c;
+            const {value: formValues} = await Swal.fire({
+                title: title,
+                html: msg,
+                backdrop: false,
+                focusConfirm: false,
+                showConfirmButton: true,
+                showCancelButton: true,
+                willOpen: () => {
+                    const elem = document.getElementById('reservation-dates-modal')
+                    const rp = new DateRangePicker(elem, {
+                        format: "yyyy-mm-dd",
+                        showFocus: true
+                    })
+                },
+                preConfirm: () => {
+                    return [
+                        document.getElementById("start").value,
+                        document.getElementById("end").value
+                    ];
+                },
+                didOpen: () => {
+                    document.getElementById('start').removeAttribute('disabled');
+                    document.getElementById('end').removeAttribute('disabled');
+                }
+            });
+            if (formValues) {
+                Swal.fire(JSON.stringify(formValues));
+            }
+        }
+
+        return {
+            toast: toast,
+            success: success,
+            error: error,
+            custom: custom
+        }
+    }
+
+
+</script>
 </body>
 
 </html>
 {{end}}
+
+

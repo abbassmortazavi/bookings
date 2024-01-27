@@ -35,8 +35,8 @@ func (m *Repository) Home(w http.ResponseWriter, r *http.Request) {
 }
 
 func (m *Repository) About(w http.ResponseWriter, r *http.Request) {
-	
-	stringMap :=make(map[string]string)
+
+	stringMap := make(map[string]string)
 	stringMap["test"] = "Hello Abbass."
 
 	remoteIp := m.App.Session.GetString(r.Context(), "remote_ip")
@@ -46,4 +46,28 @@ func (m *Repository) About(w http.ResponseWriter, r *http.Request) {
 	render.RenderTemplate(w, "about.html", &models.TempalateData{
 		StringMap: stringMap,
 	})
+}
+
+func (m *Repository) General(w http.ResponseWriter, r *http.Request) {
+	render.RenderTemplate(w, "generals.html", &models.TempalateData{})
+}
+
+func (m *Repository) Major(w http.ResponseWriter, r *http.Request) {
+	render.RenderTemplate(w, "majors.html", &models.TempalateData{})
+}
+
+func (m *Repository) Reservation(w http.ResponseWriter, r *http.Request) {
+	render.RenderTemplate(w, "make-reservation.html", &models.TempalateData{})
+}
+
+func (m *Repository) SearchAvailability(w http.ResponseWriter, r *http.Request) {
+	render.RenderTemplate(w, "search-availability.html", &models.TempalateData{})
+}
+
+func (m *Repository) Contact(w http.ResponseWriter, r *http.Request) {
+	render.RenderTemplate(w, "contact.html", &models.TempalateData{})
+}
+
+func (m *Repository) MakeReservation(w http.ResponseWriter, r *http.Request) {
+	render.RenderTemplate(w, "make-reservation.html", &models.TempalateData{})
 }

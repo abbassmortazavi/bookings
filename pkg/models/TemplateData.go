@@ -1,7 +1,7 @@
 package models
 
 // TemplateData holds data sent from handlers to templates
-type TempalateData struct {
+type TemplateData struct {
 	StringMap map[string]string
 	IntMap    map[string]int
 	FloatMap  map[string]float32

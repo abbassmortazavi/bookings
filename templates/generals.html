@@ -35,10 +35,10 @@
 {{end}}
 
 {{ define "js" }}
-    <script>
-        document.getElementById('check-availability-button').addEventListener("click", function () {
-            //notify('success', 'success');
-            let html = `<form id="check-availability-form" action="" method="post" novalidate class="needs-validation">
+<script>
+    document.getElementById('check-availability-button').addEventListener("click", function () {
+        //notify('success', 'success');
+        let html = `<form id="check-availability-form" action="" method="post" novalidate class="needs-validation">
                 <div class="row">
                     <div class="col">
                         <div class="row" id="reservation-dates-modal">
@@ -52,8 +52,18 @@
                     </div>
                 </div>
             </form>`
-            attention.custom({msg: html});
-        })
+        attention.custom({
+            msg: html,
+            title: "choose your date",
+            callback: function (result) {
+                fetch('/search-availability-json')
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log(data)
+                    })
+            }
+        });
+    })
 
-    </script>
+</script>
 {{end}}

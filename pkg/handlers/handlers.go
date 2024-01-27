@@ -1,7 +1,9 @@
 package handlers
 
 import (
+	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/abbassmortazavi/bookings/pkg/config"
@@ -69,6 +71,25 @@ func (m *Repository) PostSearchAvailability(w http.ResponseWriter, r *http.Reque
 	start := r.Form.Get("start")
 	end := r.Form.Get("end")
 	w.Write([]byte(fmt.Sprintf("start date is %s and end date is %s", start, end)))
+}
+
+type jsonResponse struct {
+	OK      bool   `json:"ok"`
+	Message string `json:"message"`
+}
+
+func (m *Repository) PostSearchAvailabilityJSON(w http.ResponseWriter, r *http.Request) {
+	resp := jsonResponse{
+		OK:      true,
+		Message: "Hi there",
+	}
+	out, err := json.MarshalIndent(resp, "", "      ")
+	if err != nil {
+		log.Println(err)
+	}
+	log.Println(string(out))
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(out)
 }
 
 func (m *Repository) Contact(w http.ResponseWriter, r *http.Request) {

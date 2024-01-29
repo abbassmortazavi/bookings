@@ -3,12 +3,11 @@ package handlers
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/abbassmortazavi/bookings/internal/config"
+	"github.com/abbassmortazavi/bookings/internal/models"
+	"github.com/abbassmortazavi/bookings/internal/render"
 	"log"
 	"net/http"
-
-	"github.com/abbassmortazavi/bookings/pkg/config"
-	"github.com/abbassmortazavi/bookings/pkg/models"
-	"github.com/abbassmortazavi/bookings/pkg/render"
 )
 
 // Repo the repository used by the handlers

@@ -2,14 +2,13 @@ package render
 
 import (
 	"bytes"
+	"github.com/abbassmortazavi/bookings/internal/config"
+	"github.com/abbassmortazavi/bookings/internal/models"
 	"github.com/justinas/nosurf"
 	"html/template"
 	"log"
 	"net/http"
 	"path/filepath"
-
-	"github.com/abbassmortazavi/bookings/pkg/config"
-	"github.com/abbassmortazavi/bookings/pkg/models"
 )
 
 var functions = template.FuncMap{}

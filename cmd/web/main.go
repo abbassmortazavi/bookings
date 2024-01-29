@@ -2,15 +2,14 @@ package main
 
 import (
 	"fmt"
+	"github.com/abbassmortazavi/bookings/internal/config"
+	"github.com/abbassmortazavi/bookings/internal/handlers"
+	"github.com/abbassmortazavi/bookings/internal/render"
 	"github.com/alexedwards/scs/v2"
 	"log"
 	"net/http"
 	"time"
 
-	"github.com/abbassmortazavi/bookings/pkg/handlers"
-
-	"github.com/abbassmortazavi/bookings/pkg/config"
-	"github.com/abbassmortazavi/bookings/pkg/render"
 	_ "github.com/alexedwards/scs/v2"
 )
 

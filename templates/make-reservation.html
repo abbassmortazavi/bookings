@@ -5,9 +5,13 @@
     <div class="row">
         <div class="col">
             <h1>Make Reservation</h1>
-            <form action="" method="post" class="needs-validation" novalidate>
+            <form action="/make-reservation" method="post" class="" novalidate>
+                <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
                 <div class="form-group mt-5">
                     <label for="first_name">first name</label>
+                    {{ with .Form.Errors.Get "first_name" }}
+                        <label class="text-danger">{{.}}</label>
+                    {{end}}
                     <input type="text" class="form-control" name="first_name" id="first_name" aria-describedby="emailHelp" placeholder="Enter first_name" required autocomplete="off">
                 </div>
 

@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/abbassmortazavi/bookings/internal/config"
+	"github.com/abbassmortazavi/bookings/internal/forms"
 	"github.com/abbassmortazavi/bookings/internal/models"
 	"github.com/abbassmortazavi/bookings/internal/render"
 	"log"
@@ -96,5 +97,35 @@ func (m *Repository) Contact(w http.ResponseWriter, r *http.Request) {
 }
 
 func (m *Repository) MakeReservation(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, r, "make-reservation.html", &models.TemplateData{})
+	render.RenderTemplate(w, r, "make-reservation.html", &models.TemplateData{
+		Form: forms.New(nil),
+	})
+}
+
+func (m *Repository) PostMakeReservation(w http.ResponseWriter, r *http.Request) {
+	err := r.ParseForm()
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	reservation := models.Reservation{
+		FirstName: r.Form.Get("first_name"),
+		LastName:  r.Form.Get("last_name"),
+		Email:     r.Form.Get("email"),
+		Phone:     r.Form.Get("phone"),
+	}
+	form := forms.New(r.PostForm)
+	form.Has("first_name", r)
+
+	if !form.Valid() {
+		data := make(map[string]interface{})
+		data["reservation"] = reservation
+
+		render.RenderTemplate(w, r, "make-reservation.html", &models.TemplateData{
+			Form: form,
+			Data: data,
+		})
+		return
+	}
+
 }
